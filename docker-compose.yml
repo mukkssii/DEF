@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: kapitanbukash@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "9000:80"
+    depends_on:
+      - database
+
+  web-app:
+    build:
+      context: .
+    ports:
+      - "8080:8000"
+    restart: always
+    volumes:
+      - ./library:/library
+    environment:
+      - DB_HOST=database
+      - DB_NAME=db
+      - DB_USER=root
+      - DB_PASSWORD=root
+    depends_on:
+      - database
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
