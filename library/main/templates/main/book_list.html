@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{{ book_list }}
+<a href="book/add/">Add a new book</a>
 
 <table style="border:1px solid black;aling:center" border="1">
     <tr>
@@ -19,6 +19,9 @@
             {% for author in book.author.all %}
                 <span style="display:block">{{ author }}</span>
             {% endfor %}
+        </td>
+        <td>
+            <a href="book/{{ book.id }}/edit">Edit</a>
         </td>
 
 
