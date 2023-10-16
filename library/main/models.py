@@ -10,21 +10,24 @@ class Book(models.Model):
                                 validators=[MinValueValidator(1)])
     created_at = models.DateTimeField(auto_created=True, auto_now=True)
     last_change_at = models.DateTimeField(auto_now_add=True)
-    pages = models.IntegerField()
+    pages = models.IntegerField(validators=[MinValueValidator(1)])
     author = models.ManyToManyField('Author', blank=False)
-    visitor = models.ForeignKey('Visitor', null=True, default=None, on_delete=models.RESTRICT)
+    visitor = models.ForeignKey('Visitor', null=True, default=None, on_delete=models.RESTRICT, blank=True)
 
     def __str__(self):
         return f'{self.title} - {self.pages}'
 
     def __len__(self):
-        return self.pages
+        return self.pages if self.pages >= 0 else 0
 
 
 class Author(models.Model):
     name = models.CharField(max_length=100, blank=False)
     pseudonym = models.CharField(max_length=100, default='')
-    has_bad_mude = models.BooleanField(default=False)
+    has_bad_temper = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'{self.name} - {self.pseudonym}'
 
 
 class AuthorDetails(models.Model):
@@ -34,3 +37,6 @@ class AuthorDetails(models.Model):
 
 class Visitor(models.Model):
     name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.name} - {self.id}'
