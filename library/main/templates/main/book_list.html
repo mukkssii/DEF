@@ -2,26 +2,29 @@
 
 {% block content %}
 
-<a href="book/add/">Add a new book</a>
+<a href="book/add/">Добавити нову книгу</a>
 
-<table style="border:1px solid black;aling:center" border="1">
+<table style="border:1px solid black;aling:center;" border="1">
     <tr>
-        <th>Book name</th>
-        <th>Price</th>
-        <th>Authors</th>
+        <th>Назва книги</th>
+        <th>Ціна</th>
+        <th>Автори</th>
     </tr>
 
-    {% for book in book_list %}
+    {% for book in book_list%}
     <tr>
-        <td>{{ book.title }}</td>
+        <td>{{ book.title }} {{ book.visitor }}</td>
         <td>{{ book.price }}</td>
         <td>
             {% for author in book.author.all %}
                 <span style="display:block">{{ author }}</span>
+<!--                <p>{{ author }}</p>-->
             {% endfor %}
         </td>
         <td>
-            <a href="book/{{ book.id }}/edit">Edit</a>
+            <a href="book/{{ book.id }}/edit/">Редагувати</a>
+            <a href="book/{{ book.id }}/delete/">Видалити</a>
+
         </td>
 
 
@@ -36,4 +39,4 @@
 
 
 
-{% endblock %}
+{% endblock %}}
